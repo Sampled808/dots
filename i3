@@ -1,0 +1,1 @@
+/home/sampled/.config/i3/config
