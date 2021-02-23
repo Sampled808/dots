@@ -1,0 +1,301 @@
+set $mod Mod4
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:DejaVu Sans Mono 10
+
+# Wallpaper - Noam
+
+
+exec_always --no-startup-id /usr/bin/feh --bg-scale /home/sampled/Downloads/starry_Wallpaper.jpg
+
+
+
+# Noam Cosmetic Changes
+floating_maximum_size 500 x 500
+default_border none
+hide_edge_borders both
+
+set $bg-color 	         #DE81A5
+set $inactive-bg-color   #2f343f
+set $text-color          #D3DE81
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+
+# window colors
+#                       border              background         text                 indicator
+client.focused          $bg-color           $bg-color          $text-color          #00ff00
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+
+
+
+
+
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
+
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+
+exec --no-startup-id nm-applet
+
+
+#Handle Language - Noam
+exec --no-startup-id setxkbmap -layout us,il -option 'grp:alt_shift_toggle'
+
+# Conky -Noam, doesnt work yet
+# exec_always "/home/sampled/.config/conky/conky_desktop/conky-startup.sh"
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3blocksvol pkill -RTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3blocksvol
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3blocksvol
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3blocksvol
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3blocksvol
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal, i3-sensible-terminal
+bindsym $mod+Return exec kitty
+
+# kill focused window - Removed shift Noam
+bindsym $mod+q kill
+
+# start rofi (a program launcher) -Noam
+bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
+exec_always --no-startup-id compton -f -i 0.78 -b  --focus-exclude 'class_g = "Rofi"'
+
+bindsym $mod+shift+q exec sh /home/sampled/scripts/compton_toggle.sh
+# There also is the (new) i1-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+# change focus - removed by Noam
+#bindsym $mod+j focus left
+#bindsym $mod+k focus down
+#bindsym $mod+l focus up
+#bindsym $mod+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+colon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in X orientation -Noam
+bindsym $mod+h split toggle
+
+# split in vertical orientation -Noam
+# bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+# bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload; exec source ~/.bashrc
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+
+#resize variable -Noam
+set $resizeval 5
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width $resizeval px or $resizeval ppt
+        bindsym k resize grow height $resizeval px or $resizeval ppt
+        bindsym l resize shrink height $resizeval px or $resizeval ppt
+        bindsym semicolon resize grow width $resizeval px or $resizeval ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width $resizeval px or $resizeval ppt
+        bindsym Down resize grow height $resizeval px or $resizeval ppt
+        bindsym Up resize shrink height $resizeval px or $resizeval ppt
+        bindsym Right resize grow width $resizeval px or $resizeval ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+        #status_command i3status
+        #i3bar_command /home/sampled/.config/polybar/launch.sh
+	status_command i3blocks
+	i3bar_command i3bar -t
+	position bottom
+}
+
+# Lock Screen
+bindsym $mod+l exec i3lock -c 000000
+
+# Fix for function keys (brightness etc) - Noam
+
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec sudo /home/sampled/scripts/brightness.sh + # increase screen brightness
+bindsym XF86MonBrightnessDown exec sudo /home/sampled/scripts/brightness.sh - # decrease screen brightness
+
+# Touchpad controls
+#bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+
+# Enhanced power button functionality - Noam
+mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
+
+  bindsym l exec i3-msg exit
+
+  bindsym r exec systemctl reboot
+
+  bindsym s exec systemctl shutdown
+
+  bindsym Escape mode "default"
+
+  bindsym Return mode "default"
+
+}
+
+
+
+
+bindsym XF86PowerOff mode "exit: [l]ogout, [r]eboot, [s]hutdown"
+
+# copyQ Clipboard manager - Noam
+
+# bindsym $mod+shift+v exec copyq show
+# exec_always copyq & # start clipboard manager on startup - Noam
+# for_window [class="copyq" instance="copyq"] floating enable
+
+# rofi clipboard manager - Noam
+exec  greenclip daemon
+
+# use to clear clipboard history (e.g. after password copy)
+bindsym $mod+shift+v exec greenclip clear; exec fish echo yes | history clear
+bindsym $mod+v exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'  -lines 8 -eh 2 -width 100 -padding 500 -opacity "70" -bw 0 -bc -fullscreen
+
+# rofi todo - Noam
+bindsym $mod+t exec bash scripts/todofi.sh
+bindsym $mod+b exec bash scripts/shell_history.sh
+
+# rofi quickvim - Noam
+bindsym $mod+n exec kitty /bin/bash scripts/quickvim.sh
+
+# WORK IN PROGRESS - Meanwhile rebinding to regular firefox
+bindsym $mod+shift+f exec firefox -new-window
+bindsym $mod+c exec qutebrowser
+
+# bindsym $mod+Shift+f mode "firefox: [n]ew, [r]estore, [g]oogle"
+
+# Noams firefox opener' work in progress
+# mode "firefox: [n]ew, [r]estore, [g]oogle" {
+# 	bindsym n exec firefox -new-window ; mode "default"
+# 	bindsym r exec firefox ; mode "default"
+# 	bindsym g exec firefox --new-instance 3https://drive.google.com/drive/my-drive https://mail.google.com/mail/u/0/#inbox https://keep.google.com/ ; mode "default"
+#
+# 	bindsym Escape mode "default"
+#   	bindsym Return mode "default"
+#   	bindsym $mod+Shift+f "default"
+# }
+
+
+
+bindsym Print exec screenshot
+
+# shortcut finder
+bindsym $mod+k exec rofi  -show window  -dmenu -p "(PROGRAM) Action - bind" -lines 8 -eh 2 -width 100 -padding 500 -opacity "70" -bw 0 -bc -fullscreen < ~/dots/keys  2>/dev/null
